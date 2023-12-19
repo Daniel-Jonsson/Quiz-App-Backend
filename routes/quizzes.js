@@ -20,5 +20,32 @@ quizRoute.get("/:_id", (req, res) => {
     .catch((err) => console.error(err))
 });
 
+quizRoute.post("/", (req, res) => {
+	quizModel
+		.addQuiz(req.body)
+		.then((response) => {
+			console.log(response);
+			res.status(201).json(response);
+		})
+		.catch((err) => console.log(err));
+});
+
+quizRoute.delete("/:_id", (req, res) => {
+	quizModel
+		.deleteQuiz(req.params._id)
+		.then((deletedQuiz) => {
+			res.status(200).json(deletedQuiz);
+		})
+		.catch((err) => console.log(err));
+});
+
+quizRoute.put("/:_id", (req, res) => {
+    quizModel.updateQuiz(req.params._id, req.body)
+    .then((updatedQuiz) => {
+        res.status(200).json(updatedQuiz)
+    })
+    .catch((err) => console.error(err))
+});
+
 
 module.exports = quizRoute
