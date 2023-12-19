@@ -19,3 +19,37 @@ GET {{url}}/subjects
 // Expected response: an json object with the subject
 // {"_id": "65815ac4ef1bb098359766c2", "subjectName": "Physics", "subjectCode": "PHY", "description": "Physics studies the properties of matter and energy."}
 GET {{url}}/subjects/PHY
+
+###############################################
+
+// Test: Add a subject
+// Expected HTTP response status code: 200
+// Expected response: a json object containing the newly added subject
+POST {{url}}/subjects HTTP/1.1
+content-type: application/json
+
+{
+    "subjectName": "Matematics",
+    "subjectCode": "MA",
+    "description": "Mathematics is the science and study of quality, structure, space, and change"
+}
+
+###############################################
+
+// Test: Delete a subject
+// Expected HTTP response status code: 200
+// Expected response: a json object containing the newly deleted subject
+DELETE {{url}}/subjects/MA
+
+###############################################
+
+// Test: Update a subject
+// Expected HTTP response status code: 200
+// Expected response: a json object containing the newly updated subject
+
+PUT {{url}}/subjects/MA HTTP/1.1
+content-type: application/json
+
+{
+    "description": "Matte är kul!!"
+}
