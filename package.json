@@ -1,0 +1,19 @@
+{
+  "name": "dajo1903_project_backend_dt190g",
+  "version": "1.0.0",
+  "description": "Projekt DT190G",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://Daniel_Jonsson@bitbucket.org/miun_dt190g/dajo1903_project_backend_dt190g.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://bitbucket.org/miun_dt190g/dajo1903_project_backend_dt190g/issues"
+  },
+  "homepage": "https://bitbucket.org/miun_dt190g/dajo1903_project_backend_dt190g#readme"
+}
