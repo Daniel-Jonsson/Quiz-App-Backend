@@ -10,13 +10,23 @@ const questionsSchema = new mongoose.Schema({
     answers: [answersSchema]
 })
 
-const quizesSchema = new mongoose.Schema({
+const quizSchema = new mongoose.Schema({
     title: String,
     creatorID: Number,
     subjectCode: String,
     questions: [questionsSchema]
 })
 
-const quizesModel = mongoose.model("Quiz", quizesSchema, "quizzes")
+quizSchema.static('getQuizzes', function () {
+    return this.find({});
+})
 
-module.exports = quizesModel
+quizSchema.static('getQuiz', function (_id) {
+    return this.findOne({_id});
+})
+
+
+
+const quizModel = mongoose.model("Quiz", quizSchema, "quizzes")
+
+module.exports = quizModel
