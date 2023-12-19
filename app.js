@@ -2,6 +2,7 @@ require('dotenv').config()
 const express = require("express");
 const cors = require("cors");
 const connectDB = require('./database');
+const subjectRoute = require('./routes/subjects');
 
 
 
@@ -14,6 +15,7 @@ app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 
 // Routes
+app.use(`${BASE_API_URL}/subjects`, subjectRoute);
 
 connectDB();
 
