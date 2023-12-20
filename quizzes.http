@@ -1,0 +1,161 @@
+@server = http://localhost
+@port = 3000
+@api_path = api
+@api_version = 1
+@url = {{server}}:{{port}}/{{api_path}}/v{{api_version}}
+
+###############################################
+
+// Test: Get all quizzes
+// Expected HTTP response status code: 200
+// Expected response: an array (json) with all quizzes
+// [{}, {}, ...]
+GET {{url}}/quizzes
+
+###############################################
+
+// Test: Get a specific quiz
+// Expected HTTP response status code: 200
+// Expected response: an json object corresponding to a single quiz
+// {"_id": "6581afbe7fc3354b29c4e7eb", "title": "Biology quiz", "creatorID": 1, "subjectCode": "BIO", ...}
+
+GET {{url}}/quizzes/6581afbe7fc3354b29c4e7eb
+
+###############################################
+
+// Test: Add a quiz
+// Expected HTTP response status code: 200
+// Expected response: a json object containing the newly added quiz
+POST {{url}}/quizzes HTTP/1.1
+content-type: application/json
+
+{
+    "title": "Mathematics quiz",
+    "creatorID": 2,
+    "subjectCode": "MA",
+    "questions": [
+        {
+            "question_text": "What symbol is used to symbolise percentage?",
+            "answers": [
+                {
+                    "answer": "%",
+                    "correct": true
+                },
+                {
+                    "answer": "#",
+                    "correct": false
+                },
+                {
+                    "answer": "@",
+                    "correct": false
+                }
+            ]
+        },
+        {
+            "question_text": "What is the sum of 18 - 9?",
+            "answers": [
+                {
+                    "answer": "29",
+                    "correct": false
+                },
+                {
+                    "answer": "9",
+                    "correct": true
+                },
+                {
+                    "answer": "14",
+                    "correct": false
+                }
+            ]
+        },
+        {
+            "question_text": "What is the sum of 7 x 7?",
+            "answers": [
+                {
+                    "answer": "90",
+                    "correct": false
+                },
+                {
+                    "answer": "23",
+                    "correct": false
+                },
+                {
+                    "answer": "49",
+                    "correct": true
+                }
+            ]
+        }
+    ]
+}
+
+###############################################
+
+// Test: Delete a quiz
+// Expected HTTP response status code: 200
+// Expected response: a json object containing the newly deleted quiz
+DELETE {{url}}/quizzes/6582bb98fc3e1677ef91e712
+
+###############################################
+
+// Test: Update a quiz
+// Expected HTTP response status code: 200
+// Expected response: a json object containing the newly updated quiz
+
+PUT {{url}}/quizzes/6581afbe7fc3354b29c4e7eb HTTP/1.1
+content-type: application/json
+
+{
+  "questions": [
+    {
+      "question_text": "What is the latin name of the Eurasian eagle-owl?",
+      "answers": [
+        {
+          "answer": "Bubo bubo",
+          "correct": true
+        },
+        {
+          "answer": "Perca fluviatilis",
+          "correct": false
+        },
+        {
+          "answer": "Grus grus",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "question_text": "Which bird is the heaviest flying bird in the world?",
+      "answers": [
+        {
+          "answer": "Mute swan",
+          "correct": false
+        },
+        {
+          "answer": "Southern cassowary",
+          "correct": false
+        },
+        {
+          "answer": "Kori bustard",
+          "correct": true
+        }
+      ]
+    },
+    {
+      "question_text": "Updated text for the third question",
+      "answers": [
+        {
+          "answer": "Gluteus maximus",
+          "correct": true
+        },
+        {
+          "answer": "Transversus abdominis",
+          "correct": false
+        },
+        {
+          "answer": "Quadriceps femoris",
+          "correct": false
+        }
+      ]
+    }
+  ]
+}
