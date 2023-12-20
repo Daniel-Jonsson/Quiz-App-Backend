@@ -3,6 +3,7 @@ const express = require("express");
 const cors = require("cors");
 const connectDB = require('./database');
 const subjectRoute = require('./routes/subjects');
+const quizRoute = require('./routes/quizzes')
 
 
 
@@ -16,6 +17,7 @@ app.use(express.urlencoded({extended: true}));
 
 // Routes
 app.use(`${BASE_API_URL}/subjects`, subjectRoute);
+app.use(`${BASE_API_URL}/quizzes`, quizRoute)
 
 connectDB();
 
