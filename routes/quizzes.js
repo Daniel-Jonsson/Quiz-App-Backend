@@ -47,5 +47,14 @@ quizRoute.put("/:_id", (req, res) => {
     .catch((err) => console.error(err))
 });
 
+// get all quizzes made by specific user
+quizRoute.get("/my/:userName", (req, res) => {
+	quizModel.find({"userName": req.params.userName})
+	.then((myQuizzes) => {
+		res.status(200).json(myQuizzes)
+	})
+	.catch((err) => console.error(err))
+})
+
 
 module.exports = quizRoute

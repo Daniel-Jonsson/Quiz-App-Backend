@@ -14,6 +14,15 @@ GET {{url}}/quizzes
 
 ###############################################
 
+// Test: Get all quizzes created by the specified user.
+// Expected HTTP response status code: 200
+// Expected response: an array (json) with all quizzes
+// created by the specified user.
+// [{}, {}, ...]
+GET {{url}}/quizzes/my/Mona643!
+
+###############################################
+
 // Test: Get a specific quiz
 // Expected HTTP response status code: 200
 // Expected response: an json object corresponding to a single quiz
