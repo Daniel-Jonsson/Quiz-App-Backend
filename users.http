@@ -1,0 +1,60 @@
+@server = http://localhost
+@port = 3000
+@api_path = api
+@api_version = 1
+@url = {{server}}:{{port}}/{{api_path}}/v{{api_version}}
+
+###############################################
+
+// Test: Sign in a user
+// Expected HTTP response status code: 200
+// Expected response: an json object containing session data
+// { "cookie": {}, "authenticated": true, ...}
+POST {{url}}/users/login HTTP/1.1
+content-type: application/json
+
+{
+    "userName": "Mona643!",
+    "password": "Mona3ss291"
+}
+
+###############################################
+
+// Test: Sign up a user
+// Expected HTTP response status code: 200
+// Expected response: an json object containing session data
+// { "cookie": {}, "authenticated": true, ...}
+
+POST {{url}}/users/signup HTTP/1.1
+content-type: application/json
+
+{
+    "firstName": "Mona",
+    "lastName": "Larsson",
+    "password": "Mona321",
+    "isAdmin": "true",
+    "userName": "Mona643!"
+}
+
+
+###############################################
+
+// Test: Sign out a user
+// Expected HTTP response status code: 200
+GET {{url}}/users/logout
+
+###############################################
+
+// Test: Update a user
+// Expected HTTP response status code: 200
+// Expected response: an json object containing session data
+// { "cookie": {}, "authenticated": true, ...}
+
+PUT {{url}}/users/Mona643! HTTP/1.1
+content-type: application/json
+
+{
+    "firstName": "Monoa",
+    "lastName": "Larssodn",
+    "password": "Mona3ss291"
+}
