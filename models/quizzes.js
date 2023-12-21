@@ -11,14 +11,14 @@ const questionsSchema = new mongoose.Schema({
 });
 
 const quizSchema = new mongoose.Schema({
-    title: String,
-    creatorID: Number,
-    subjectCode: String,
-    questions: [questionsSchema]
+	title: String,
+	userName: String,
+	subject: { type: mongoose.Schema.ObjectId, ref: "subjects" },
+	questions: [questionsSchema],
 });
 
 quizSchema.static('getQuizzes', async function () {
-    return this.find({});
+    return this.find({}).populate('subject', 'subjectName')
 });
 
 quizSchema.static('getQuiz', async function (_id) {
