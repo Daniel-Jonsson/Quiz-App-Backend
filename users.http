@@ -14,8 +14,8 @@ POST {{url}}/users/login HTTP/1.1
 content-type: application/json
 
 {
-    "userName": "Olaking32",
-    "password": "Megahemligt"
+    "userName": "Mona643!",
+    "password": "Mona3ss291"
 }
 
 ###############################################
@@ -50,5 +50,5 @@ content-type: application/json
 {
     "firstName": "Monoa",
     "lastName": "Larssodn",
-    "password": "Mona3291",
+    "password": "Mona3ss291"
 }

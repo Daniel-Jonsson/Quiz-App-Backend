@@ -32,7 +32,6 @@ userSchema.static('getUsers', function () {
 })
 
 userSchema.static('getUser', function (userName) {
-    console.log(userName)
     return this.findOne({userName});
 });
 
@@ -42,8 +41,13 @@ userSchema.static('addUser', async function(userData) {
     return savedUser
 });
 
-userSchema.static('updateUser', function (userName, updatedData) {
-    return this.findOneAndUpdate({userName}, updatedData, {new: true});
+userSchema.static('updateUser', async function (userName, updatedData) {
+    const user = await this.findOne({userName});
+    if(!user) {
+        return null;
+    }
+    Object.assign(user, updatedData)
+    return user.save();
 });
 
 userSchema.static('deleteUser', function (userName) {
