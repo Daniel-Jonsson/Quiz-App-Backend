@@ -1,9 +1,12 @@
 require('dotenv').config()
 const express = require("express");
 const cors = require("cors");
+const session = require('express-session');
+
 const connectDB = require('./database');
 const subjectRoute = require('./routes/subjects');
 const quizRoute = require('./routes/quizzes')
+const userRoute = require('./routes/users');
 
 
 
@@ -11,13 +14,22 @@ const app = express();
 const BASE_API_URL = '/api/v1' // Kanske får ändra denna om vi vill sen
 const port = process.env.PORT;
 
+app.use(
+	session({
+		secret: "secret",
+		cookie: { maxAge: 30000 },
+		resave: true,
+		saveUninitialized: false,
+	})
+);
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 
 // Routes
 app.use(`${BASE_API_URL}/subjects`, subjectRoute);
-app.use(`${BASE_API_URL}/quizzes`, quizRoute)
+app.use(`${BASE_API_URL}/quizzes`, quizRoute);
+app.use(`${BASE_API_URL}/users`, userRoute);
 
 connectDB();
 
