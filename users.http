@@ -39,6 +39,12 @@ content-type: application/json
 
 ###############################################
 
+// Test: Sign out a user
+// Expected HTTP response status code: 200
+GET {{url}}/users/logout
+
+###############################################
+
 // Test: Update a user
 // Expected HTTP response status code: 200
 // Expected response: an json object containing session data
