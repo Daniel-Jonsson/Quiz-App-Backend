@@ -14,7 +14,6 @@ userRoute.get("/logout", (req, res) => {
 });
 userRoute.post("/login", async (req, res) => {
 	const { userName, password } = req.body;
-	console.log(userName);
 	if (userName && password) {
 		const foundUser = await userModel.getUser(userName);
 		if (!foundUser) {

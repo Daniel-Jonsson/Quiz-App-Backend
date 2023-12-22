@@ -14,6 +14,15 @@ const app = express();
 const BASE_API_URL = '/api/v1' // Kanske får ändra denna om vi vill sen
 const port = process.env.PORT;
 
+app.use(
+	cors({
+		origin: "http://localhost:4200",
+		credentials: true,
+	})
+);
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
 connectDB();
 
 const store = new mongoDbSession({
@@ -24,16 +33,18 @@ const store = new mongoDbSession({
 app.use(
 	session({
 		secret: "secret",
-		cookie: { maxAge: 30000 },
-		resave: true,
+		cookie: {
+			maxAge: 1000 * 60 * 60 * 24,
+			sameSite: false,
+			secure: (process.env.NODE_ENV = "production"),
+			maxAge: 1000,
+			httpOnly: true
+		},
+		resave: false,
 		saveUninitialized: false,
-		store: store
+		store: store,
 	})
 );
-
-app.use(cors());
-app.use(express.json());
-app.use(express.urlencoded({extended: true}));
 
 // Routes
 app.use(`${BASE_API_URL}/subjects`, subjectRoute);
