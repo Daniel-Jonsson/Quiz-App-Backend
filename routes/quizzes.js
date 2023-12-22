@@ -49,7 +49,7 @@ quizRoute.put("/:_id", (req, res) => {
 
 // get all quizzes made by specific user
 quizRoute.get("/my/:userName", (req, res) => {
-	quizModel.find({"userName": req.params.userName})
+	quizModel.find({"userName": req.params.userName}).populate('subject')
 	.then((myQuizzes) => {
 		res.status(200).json(myQuizzes)
 	})

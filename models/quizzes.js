@@ -18,11 +18,11 @@ const quizSchema = new mongoose.Schema({
 });
 
 quizSchema.static('getQuizzes', async function () {
-    return this.find({}).populate('subject', 'subjectName')
+    return this.find({}).populate('subject')
 });
 
 quizSchema.static('getQuiz', async function (_id) {
-    return this.findOne({_id});
+    return this.findOne({_id}).populate('subject');
 });
 
 quizSchema.static('addQuiz', async function (quizData) {
