@@ -35,10 +35,6 @@ app.use(
 		secret: "secret",
 		cookie: {
 			maxAge: 1000 * 60 * 60 * 24,
-			sameSite: false,
-			secure: (process.env.NODE_ENV = "production"),
-			maxAge: 1000,
-			httpOnly: true
 		},
 		resave: false,
 		saveUninitialized: false,
