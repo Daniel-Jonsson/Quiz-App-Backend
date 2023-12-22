@@ -1,6 +1,7 @@
 const express = require("express");
 const quizRoute = express.Router();
 const quizModel = require("../models/quizzes");
+const isAuth = require('../middleware/authentication');
 
 quizRoute.get("/", (req, res) => {
 	quizModel
@@ -20,7 +21,7 @@ quizRoute.get("/:_id", (req, res) => {
     .catch((err) => console.error(err))
 });
 
-quizRoute.post("/", (req, res) => {
+quizRoute.post("/", isAuth, (req, res) => {
 	quizModel
 		.addQuiz(req.body)
 		.then((response) => {
@@ -30,7 +31,7 @@ quizRoute.post("/", (req, res) => {
 		.catch((err) => console.log(err));
 });
 
-quizRoute.delete("/:_id", (req, res) => {
+quizRoute.delete("/:_id", isAuth, (req, res) => {
 	quizModel
 		.deleteQuiz(req.params._id)
 		.then((deletedQuiz) => {
@@ -39,7 +40,7 @@ quizRoute.delete("/:_id", (req, res) => {
 		.catch((err) => console.log(err));
 });
 
-quizRoute.put("/:_id", (req, res) => {
+quizRoute.put("/:_id", isAuth, (req, res) => {
     quizModel.updateQuiz(req.params._id, req.body)
     .then((updatedQuiz) => {
         res.status(200).json(updatedQuiz)
@@ -48,7 +49,7 @@ quizRoute.put("/:_id", (req, res) => {
 });
 
 // get all quizzes made by specific user
-quizRoute.get("/my/:userName", (req, res) => {
+quizRoute.get("/my/:userName", isAuth, (req, res) => {
 	quizModel.find({"userName": req.params.userName}).populate('subject')
 	.then((myQuizzes) => {
 		res.status(200).json(myQuizzes)

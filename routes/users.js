@@ -12,9 +12,8 @@ userRoute.get("/logout", (req, res) => {
 		}
 	});
 });
-userRoute.post("/login", async (req, res) => {
+userRoute.post("/login", async (req, res, next) => {
 	const { userName, password } = req.body;
-
 	if (userName && password) {
 		const foundUser = await userModel.getUser(userName);
 		if (!foundUser) {
@@ -31,8 +30,11 @@ userRoute.post("/login", async (req, res) => {
 			res.status(200).json(req.session);
 		} else {
 			req.session.authenticated = true;
-			req.session.user = userName;
-			res.status(200).json(req.session);
+			req.session.user = {
+				id: foundUser._id,
+				username: userName,
+			};
+			res.status(200).json(req.session)
 		}
 	} else {
 		res.status(403).json({ message: "Invalid credentials." });

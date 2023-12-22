@@ -28,7 +28,7 @@ GET {{url}}/quizzes/my/Mona643!
 // Expected response: an json object corresponding to a single quiz
 // {"_id": "6581afbe7fc3354b29c4e7eb", "title": "Biology quiz", "creatorID": 1, "subjectCode": "BIO", ...}
 
-GET {{url}}/quizzes/6581afbe7fc3354b29c4e7eb
+GET {{url}}/quizzes/6584b6cde1c9e0d5abfc6be2
 
 ###############################################
 
