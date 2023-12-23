@@ -1,6 +1,7 @@
 const express = require("express");
 const quizRoute = express.Router();
 const quizModel = require("../models/quizzes");
+const isAuth = require("../middleware/authentication")
 
 
 quizRoute.get("/", (req, res) => {
@@ -12,7 +13,7 @@ quizRoute.get("/", (req, res) => {
 		.catch((err) => console.error(err));
 });
 
-quizRoute.post("/", (req, res) => {
+quizRoute.post("/", isAuth, (req, res) => {
 	quizModel
 		.addQuiz(req.body)
 		.then((response) => {
@@ -23,7 +24,7 @@ quizRoute.post("/", (req, res) => {
 });
 
 // get all quizzes made by specific user
-quizRoute.get("/my", (req, res) => {
+quizRoute.get("/my", isAuth, (req, res) => {
 	const user = req.session.user.username;
 	quizModel.find({"userName": user}).populate('subject')
 	.then((userQuizzes) => {
@@ -32,7 +33,7 @@ quizRoute.get("/my", (req, res) => {
 	.catch(() => res.status(500).json({message: "An error occured."}))
 })
 
-quizRoute.delete("/:_id", (req, res) => {
+quizRoute.delete("/:_id", isAuth, (req, res) => {
 	quizModel
 		.deleteQuiz(req.params._id)
 		.then((deletedQuiz) => {
@@ -50,7 +51,7 @@ quizRoute.get("/:_id", (req, res) => {
 		.catch((err) => console.error(err));
 });
 
-quizRoute.put("/:_id", (req, res) => {
+quizRoute.put("/:_id", isAuth, (req, res) => {
     quizModel.updateQuiz(req.params._id, req.body)
     .then((updatedQuiz) => {
         res.status(200).json(updatedQuiz)
