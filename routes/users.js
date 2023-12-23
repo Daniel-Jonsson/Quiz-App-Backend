@@ -9,7 +9,16 @@ userRoute.get("/isSignedIn", isAuth, (req, res) => {
 	res.status(200).json();
 });
 
+userRoute.get('/me', (req, res) => {
+	if(req.session.authenticated) {
+		const loggedInUser = req.session.user.username;
+		userModel
+			.getUser(loggedInUser)
+			.then((currentUser) => res.status(200).json(currentUser))
+			.catch((error) => console.log(error));
 
+	}
+})
 userRoute.get("/logout", (req, res) => {
 	req.session.destroy((err) => {
 		if (err) {
@@ -59,7 +68,7 @@ userRoute.post("/signup", (req, res) => {
 		});
 });
 
-userRoute.put("/:userName", (req, res) => {
+userRoute.put("/", (req, res) => {
 	userModel
 		.updateUser(req.params.userName, req.body)
 		.then((result) => {
