@@ -15,7 +15,7 @@ userRoute.get('/me', (req, res) => {
 		userModel
 			.getUser(loggedInUser)
 			.then((currentUser) => res.status(200).json(currentUser))
-			.catch((err) => console.log(err))
+			.catch((error) => console.log(error));
 
 	}
 })
