@@ -2,6 +2,13 @@ const express = require("express");
 const userRoute = express.Router();
 const userModel = require("../models/users");
 const bcrypt = require("bcrypt");
+const isAuth = require("../middleware/authentication")
+
+
+userRoute.get("/isSignedIn", isAuth, (req, res) => {
+	res.status(200).json();
+});
+
 
 userRoute.get("/logout", (req, res) => {
 	req.session.destroy((err) => {
@@ -12,7 +19,7 @@ userRoute.get("/logout", (req, res) => {
 		}
 	});
 });
-userRoute.post("/login", async (req, res, next) => {
+userRoute.post("/login", async (req, res) => {
 	const { userName, password } = req.body;
 	if (userName && password) {
 		const foundUser = await userModel.getUser(userName);
