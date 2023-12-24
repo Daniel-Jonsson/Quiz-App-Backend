@@ -28,7 +28,7 @@ quizSchema.static('getQuiz', async function (_id) {
 quizSchema.static('addQuiz', async function (quizData) {
     const newQuiz = new this(quizData);
     const savedQuiz = await newQuiz.save();
-    return savedQuiz;
+    return savedQuiz.populate('subject');
 })
 
 quizSchema.static('deleteQuiz', async function (_id) {
