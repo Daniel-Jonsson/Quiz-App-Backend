@@ -12,6 +12,7 @@ const questionsSchema = new mongoose.Schema({
 
 const quizSchema = new mongoose.Schema({
 	title: String,
+    description: String,
 	userName: String,
 	subject: { type: mongoose.Schema.ObjectId, ref: "subjects" },
 	questions: [questionsSchema],
