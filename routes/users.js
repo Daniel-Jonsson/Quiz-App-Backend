@@ -20,7 +20,7 @@ userRoute.get('/me', isAuth, (req, res) => {
 userRoute.get("/logout", isAuth, (req, res) => {
 	req.session.destroy((err) => {
 		if (err) {
-			res.status(500).json({ message: "Internal Server Error." });
+			res.status(500).json({ message: "Internal Server Error" });
 		} else {
 			res.status(200).json({message: "Successfully logged out."});
 		}
@@ -72,8 +72,8 @@ userRoute.put("/", isAuth, (req, res) => {
 		.then((result) => {
 			res.status(200).json(result);
 		})
-		.catch((err) => {
-			console.log(err);
+		.catch(() => {
+			res.status(500).json({message: "Internal Server Error"});
 		});
 });
 

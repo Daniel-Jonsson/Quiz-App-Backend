@@ -22,7 +22,7 @@ quizSchema.static('getQuizzes', async function () {
     return this.find({}).populate('subject')
 });
 
-quizSchema.static('getQuiz', async function (_id) {
+quizSchema.static('getQuiz', function (_id) {
     return this.findOne({_id}).populate('subject');
 });
 
@@ -32,7 +32,7 @@ quizSchema.static('addQuiz', async function (quizData) {
     return savedQuiz.populate('subject');
 })
 
-quizSchema.static('deleteQuiz', async function (_id) {
+quizSchema.static('deleteQuiz', function (_id) {
 	return this.findOneAndDelete({_id});
 });
 
