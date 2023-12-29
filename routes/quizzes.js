@@ -10,7 +10,7 @@ quizRoute.get("/", (req, res) => {
 		.then((quizzes) => {
 			res.status(200).json(quizzes);
 		})
-		.catch((err) => console.error(err));
+		.catch(() => res.status(500).json({message: "Internal Server Error"}));
 });
 
 quizRoute.post("/", isAuth, (req, res) => {
@@ -20,7 +20,7 @@ quizRoute.post("/", isAuth, (req, res) => {
 			console.log(response);
 			res.status(201).json(response);
 		})
-		.catch((err) => console.log(err));
+		.catch(() => res.status(500).json({message: "Could not create quiz, try again later."}));
 });
 
 // get all quizzes made by specific user
@@ -30,33 +30,35 @@ quizRoute.get("/my", isAuth, (req, res) => {
 	.then((userQuizzes) => {
 		res.status(200).json(userQuizzes)
 	})
-	.catch(() => res.status(500).json({message: "An error occured."}))
+	.catch(() => res.status(500).json({message: "An error occured while getting quizzes, try again later."}))
 })
 
-quizRoute.delete("/:_id", isAuth, (req, res) => {
-	quizModel
-		.deleteQuiz(req.params._id)
-		.then((deletedQuiz) => {
-			res.status(200).json(deletedQuiz);
-		})
-		.catch((err) => console.log(err));
+quizRoute.delete("/:_id", isAuth, async (req, res) => {
+	const deleteQuiz = await quizModel.deleteQuiz(req.params._id);
+
+	if(!deleteQuiz) {
+		res.status(404).json({message: "Quiz not found"})
+	} else {
+		res.status(200).json(deleteQuiz);
+	}
 });
 
-quizRoute.get("/:_id", (req, res) => {
-	quizModel
-		.getQuiz(req.params._id)
-		.then((quiz) => {
-			res.status(200).json(quiz);
-		})
-		.catch((err) => console.error(err));
+quizRoute.get("/:_id", async (req, res) => {
+	const targetQuiz = await quizModel.getQuiz(req.params._id);
+	if(!targetQuiz) {
+		res.status(404).json({message: "Quiz not found"})
+	} else {
+		res.status(200).json(targetQuiz)
+	}
 });
 
-quizRoute.put("/:_id", isAuth, (req, res) => {
-    quizModel.updateQuiz(req.params._id, req.body)
-    .then((updatedQuiz) => {
-        res.status(200).json(updatedQuiz)
-    })
-    .catch((err) => console.error(err))
+quizRoute.put("/:_id", isAuth, async (req, res) => {
+	const updatedQuiz = await quizModel.updateQuiz(req.params._id, req.body);
+	if(!updatedQuiz) {
+		res.status(404).json({message: "Quiz not found"})
+	} else {
+		res.status(200).json(updatedQuiz);
+	}
 });
 
 

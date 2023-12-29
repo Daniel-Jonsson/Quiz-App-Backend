@@ -8,45 +8,46 @@ subjectRoute.get("/", (req, res) => {
 		.then((subjects) => {
 			res.status(200).json(subjects);
 		})
-		.catch((err) => console.error(err));
+		.catch(() => res.status(500).json({message: "Internal Server Error"}));
 });
 
-subjectRoute.get("/:subjectCode", (req, res) => {
-	subjectModel
-		.getSubject(req.params.subjectCode)
-		.then((subject) => {
-			res.status(200).json(subject);
-		})
-		.catch((err) => console.error(err));
+subjectRoute.get("/:subjectCode", async (req, res) => {
+	const targetSubject = await subjectModel.getSubject(req.params.subjectCode);
+	if(!targetSubject) {
+		res.status(404).json({message: "Subject not found."})
+	} else {
+		res.status(200).json(targetSubject);
+	}
 });
 
-subjectRoute.post("/", (req, res) => {
+subjectRoute.post("/", async (req, res) => {
 	subjectModel
 		.addSubject(req.body)
 		.then((response) => {
 			console.log(response);
 			res.status(201).json(response);
 		})
-		.catch((err) => console.log(err));
+		.catch(() => res.status(500).json({message: "Internal Server Error"}));
 });
 
-subjectRoute.delete("/:subjectCode", (req, res) => {
-	subjectModel
-		.deleteSubject(req.params.subjectCode)
-		.then((result) => {
-			res.status(200).json(result);
-		})
-		.catch((err) => console.log(err));
+subjectRoute.delete("/:subjectCode", async (req, res) => {
+	const targetSubject = await this.subjectModel.deleteSubject(req.params.subjectCode);
+	if(!targetSubject) {
+		res.status(404).json({message: "Subject not found."})
+	} else {
+		res.status(200).json(targetSubject)
+	}
 });
 
-subjectRoute.put("/:subjectCode", (req, res) => {
+subjectRoute.put("/:subjectCode", async (req, res) => {
 	const subjectCode = req.params.subjectCode;
 	const updatedSubject = req.body;
-	subjectModel.updateSubject(subjectCode, updatedSubject)
-    .then((updatedSubject) => {
-        res.status(200).json(updatedSubject)
-    })
-    .catch((err) => console.log(err))
+	const result = await subjectModel.updateSubject(subjectCode, updatedSubject);
+	if(!result) {
+		res.status(404).json({message: "Subject not found."})
+	} else {
+		res.status(200).json(result);
+	}
 });
 
 module.exports = subjectRoute;
