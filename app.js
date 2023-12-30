@@ -1,3 +1,8 @@
+/** 
+ * Starting point for backend.
+ * @author Daniel Jönsson, Robert Kullman
+ */
+
 require('dotenv').config()
 const express = require("express");
 const cors = require("cors");
@@ -11,7 +16,7 @@ const userRoute = require('./routes/users');
 
 
 const app = express();
-const BASE_API_URL = '/api/v1' // Kanske får ändra denna om vi vill sen
+const BASE_API_URL = '/api/v1' 
 const port = process.env.PORT;
 
 app.use(
@@ -30,6 +35,7 @@ const store = new mongoDbSession({
 	collection: 'userSessions'
 });
 
+// use session middleware
 app.use(
 	session({
 		secret: "secret",

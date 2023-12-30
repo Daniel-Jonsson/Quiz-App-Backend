@@ -1,14 +1,20 @@
+/**
+ * Contains all routes for accessing and modifying users in the database.
+ * @author Daniel Jönsson, Robert Kullman
+ */
+
 const express = require("express");
 const userRoute = express.Router();
 const userModel = require("../models/users");
 const bcrypt = require("bcrypt");
 const isAuth = require("../middleware/authentication")
 
-
+/** Retrieves the logged in status of the user. */
 userRoute.get("/isSignedIn", isAuth, (req, res) => {
 	res.status(200).json();
 });
 
+/** Retrieves the user information of the logged in user. */
 userRoute.get('/me', isAuth, (req, res) => {
 	const loggedInUser = req.session.user.username;
 	userModel
@@ -17,6 +23,7 @@ userRoute.get('/me', isAuth, (req, res) => {
 		.catch((error) => console.log(error));
 })
 
+/** Logs the user out. */
 userRoute.get("/logout", isAuth, (req, res) => {
 	req.session.destroy((err) => {
 		if (err) {
@@ -26,6 +33,8 @@ userRoute.get("/logout", isAuth, (req, res) => {
 		}
 	});
 });
+
+/** Logs in a user, provided that a valid username and a matching password has been provided */
 userRoute.post("/login", async (req, res) => {
 	const { userName, password } = req.body;
 	if (userName && password) {
@@ -55,6 +64,7 @@ userRoute.post("/login", async (req, res) => {
 	}
 });
 
+/** Registers a new user. */
 userRoute.post("/signup", (req, res) => {
 	userModel
 		.addUser(req.body)
@@ -66,6 +76,7 @@ userRoute.post("/signup", (req, res) => {
 		});
 });
 
+/** Updates the information of an existing user. */
 userRoute.put("/", isAuth, (req, res) => {
 	userModel
 		.updateUser(req.params.userName, req.body)
