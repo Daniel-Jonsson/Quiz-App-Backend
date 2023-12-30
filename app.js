@@ -13,13 +13,15 @@ const userRoute = require('./routes/users');
 const app = express();
 const BASE_API_URL = '/api/v1' // Kanske får ändra denna om vi vill sen
 const port = process.env.PORT;
+const allowedOrigins = ["http://localhost:4200", "https://studenter.miun.se"];
 
 app.use(
 	cors({
-		origin: "http://localhost:4200",
+		origin: allowedOrigins,
 		credentials: true,
 	})
 );
+app.set('trust proxy', 1)
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -34,6 +36,9 @@ app.use(
 	session({
 		secret: "secret",
 		cookie: {
+			sameSite: 'none',
+			secure: true,
+			httpOnly: true,
 			maxAge: 1000 * 60 * 30,
 		},
 		resave: false,
