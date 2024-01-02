@@ -66,7 +66,7 @@ userSchema.static('deleteUser', function (userName) {
     return this.findOneAndDelete({userName});
 });
 
-/** Pre hook which checks authentication status before proceeding with modification. */
+/** Pre hook which hashes user password before proceeding with storing to database. */
 userSchema.pre("save", async function (next) {
 	if (!this.isModified("password")) {
 		next();
