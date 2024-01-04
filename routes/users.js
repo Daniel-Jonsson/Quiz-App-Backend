@@ -7,7 +7,7 @@ const express = require("express");
 const userRoute = express.Router();
 const userModel = require("../models/users");
 const bcrypt = require("bcrypt");
-const isAuth = require("../middleware/authentication")
+const isAuth = require("../middleware/authentication");
 
 /** Retrieves the logged in status of the user. */
 userRoute.get("/isSignedIn", isAuth, (req, res) => {
@@ -15,13 +15,13 @@ userRoute.get("/isSignedIn", isAuth, (req, res) => {
 });
 
 /** Retrieves the user information of the logged in user. */
-userRoute.get('/me', isAuth, (req, res) => {
+userRoute.get("/me", isAuth, (req, res) => {
 	const loggedInUser = req.session.user.username;
 	userModel
 		.getUser(loggedInUser)
 		.then((currentUser) => res.status(200).json(currentUser))
 		.catch((error) => console.log(error));
-})
+});
 
 /** Logs the user out. */
 userRoute.get("/logout", isAuth, (req, res) => {
@@ -29,7 +29,7 @@ userRoute.get("/logout", isAuth, (req, res) => {
 		if (err) {
 			res.status(500).json({ message: "Internal Server Error" });
 		} else {
-			res.status(200).json({message: "Successfully logged out."});
+			res.status(200).json({ message: "Successfully logged out." });
 		}
 	});
 });
@@ -57,7 +57,7 @@ userRoute.post("/login", async (req, res) => {
 				id: foundUser._id,
 				username: userName,
 			};
-			res.status(200).json(req.session)
+			res.status(200).json(req.session);
 		}
 	} else {
 		res.status(403).json({ message: "Invalid credentials." });
@@ -84,7 +84,7 @@ userRoute.put("/", isAuth, (req, res) => {
 			res.status(200).json(result);
 		})
 		.catch(() => {
-			res.status(500).json({message: "Internal Server Error"});
+			res.status(500).json({ message: "Internal Server Error" });
 		});
 });
 

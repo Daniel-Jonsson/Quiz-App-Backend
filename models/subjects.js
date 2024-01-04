@@ -1,5 +1,5 @@
 /**
- * Specifies the subject model and the subject schema , along with 
+ * Specifies the subject model and the subject schema , along with
  * static functions for accessing and modifying data.
  * @author Daniel Jönsson, Robert Kullman
  */
@@ -39,9 +39,9 @@ subjectSchema.static("getSubject", function (subjectCode) {
 
 /** Adds a new subject based on the provided data. */
 subjectSchema.static("addSubject", async function (subjectData) {
-    const newSubject = new this(subjectData);
-    const savedSubject = await newSubject.save();
-	return savedSubject
+	const newSubject = new this(subjectData);
+	const savedSubject = await newSubject.save();
+	return savedSubject;
 });
 
 /** Deletes the specified subject. */
@@ -50,9 +50,12 @@ subjectSchema.static("deleteSubject", function (subjectCode) {
 });
 
 /** Updates a subject based on the provided _id and updatedSubject parameters */
-subjectSchema.static("updateSubject", function(subjectCode, updatedSubject) {
-    return this.findOneAndUpdate({ subjectCode: subjectCode }, updatedSubject, {new: true, runValidators: true});
-})
+subjectSchema.static("updateSubject", function (subjectCode, updatedSubject) {
+	return this.findOneAndUpdate({ subjectCode: subjectCode }, updatedSubject, {
+		new: true,
+		runValidators: true,
+	});
+});
 
 /** The subject model */
 const subjectModel = model("subjects", subjectSchema);

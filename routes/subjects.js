@@ -14,14 +14,16 @@ subjectRoute.get("/", (req, res) => {
 		.then((subjects) => {
 			res.status(200).json(subjects);
 		})
-		.catch(() => res.status(500).json({message: "Internal Server Error"}));
+		.catch(() =>
+			res.status(500).json({ message: "Internal Server Error" })
+		);
 });
 
 /** Gets a specific subject based on the provided subjectCode parameter. */
 subjectRoute.get("/:subjectCode", async (req, res) => {
 	const targetSubject = await subjectModel.getSubject(req.params.subjectCode);
-	if(!targetSubject) {
-		res.status(404).json({message: "Subject not found."})
+	if (!targetSubject) {
+		res.status(404).json({ message: "Subject not found." });
 	} else {
 		res.status(200).json(targetSubject);
 	}
@@ -35,16 +37,20 @@ subjectRoute.post("/", async (req, res) => {
 			console.log(response);
 			res.status(201).json(response);
 		})
-		.catch(() => res.status(500).json({message: "Internal Server Error"}));
+		.catch(() =>
+			res.status(500).json({ message: "Internal Server Error" })
+		);
 });
 
 /** Deletes a subject from the database. */
 subjectRoute.delete("/:subjectCode", async (req, res) => {
-	const targetSubject = await this.subjectModel.deleteSubject(req.params.subjectCode);
-	if(!targetSubject) {
-		res.status(404).json({message: "Subject not found."})
+	const targetSubject = await this.subjectModel.deleteSubject(
+		req.params.subjectCode
+	);
+	if (!targetSubject) {
+		res.status(404).json({ message: "Subject not found." });
 	} else {
-		res.status(200).json(targetSubject)
+		res.status(200).json(targetSubject);
 	}
 });
 
@@ -52,9 +58,12 @@ subjectRoute.delete("/:subjectCode", async (req, res) => {
 subjectRoute.put("/:subjectCode", async (req, res) => {
 	const subjectCode = req.params.subjectCode;
 	const updatedSubject = req.body;
-	const result = await subjectModel.updateSubject(subjectCode, updatedSubject);
-	if(!result) {
-		res.status(404).json({message: "Subject not found."})
+	const result = await subjectModel.updateSubject(
+		subjectCode,
+		updatedSubject
+	);
+	if (!result) {
+		res.status(404).json({ message: "Subject not found." });
 	} else {
 		res.status(200).json(result);
 	}
